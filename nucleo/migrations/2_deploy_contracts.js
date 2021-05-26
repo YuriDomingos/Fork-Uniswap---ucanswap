@@ -31,5 +31,5 @@ let token1Address, token2Address;
     token3Address = token3.address;
   }
 
-  await factory.createPair(token1Address, token2Address, token3Address);
+  await factory.createPair(token1Address, token2Address);
 };

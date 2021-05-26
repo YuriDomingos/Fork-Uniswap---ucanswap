@@ -3,7 +3,7 @@ const BonusToken = artifacts.require("BonusToken.sol");
 const LiquidityMigrator = artifacts.require('LiquidityMigrator.sol');
 
 
-module.exports = function (deployer)
+module.exports = async function (deployer)
 {
     await deployer.deploy(BonusToken);
     const bonusToken = await BonusToken.deployed();
@@ -16,13 +16,15 @@ module.exports = function (deployer)
  
     await deployer.deploy(
 
-        LiquidityMigrator,
-          outerAddress ,
+          LiquidityMigrator,
+          routerAddress ,
           pairAddress ,
          routerForkAddress,
-         pairForkAddress
+         pairForkAddress,
+         bonusToken.address
 
     );
 
-    const LiquidityMigrator = await LiquidityMigrator.deployed();
+    const liquidityMigrator = await LiquidityMigrator.deployed();
+    await bonusToken.setLiquidator(liquidityMigrator.address);
 };
